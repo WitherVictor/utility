@@ -1,8 +1,9 @@
 #include <algorithm>
 #include <charconv>
-#include <print>
+#include <concepts>
 #include <random>
 #include <ranges>
+#include <format>
 
 template <std::integral Tp>
 class rng {
