@@ -4,6 +4,7 @@
 #include <random>
 #include <ranges>
 #include <format>
+#include <type_traits>
 
 template <std::integral Tp>
 class rng {
@@ -24,6 +25,9 @@ private:
     std::mt19937_64 m_engine;
     std::uniform_int_distribution<Tp> m_range;
 };
+
+template <typename Tp, typename Up>
+rng(Tp, Up) -> rng<std::common_type_t<Tp, Up>>;
 
 struct dice_data {
     dice_data(const std::vector<std::string>& dice_info) {
