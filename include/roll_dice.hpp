@@ -3,10 +3,14 @@
 #include <algorithm>
 #include <charconv>
 #include <concepts>
+#include <optional>
 #include <random>
-#include <ranges>
 #include <format>
 #include <type_traits>
+#include <regex>
+
+//  format for std::vector<T>
+#include <format_container.hpp>
 
 template <std::integral Tp>
 class rng {
@@ -32,40 +36,37 @@ template <typename Tp, typename Up>
 rng(Tp, Up) -> rng<std::common_type_t<Tp, Up>>;
 
 struct dice_data {
-    dice_data(const std::vector<std::string>& dice_info) {
-        std::from_chars(dice_info.at(0).data(), dice_info.at(0).data() + dice_info.at(0).size(), count);
-        std::from_chars(dice_info.at(1).data(), dice_info.at(1).data() + dice_info.at(1).size(), face);
-        
-        if (dice_info.size() > 2) {
-            std::from_chars(dice_info.at(2).data(), dice_info.at(2).data() + dice_info.at(2).size(), modifier);
-        } else {
-            modifier = 0;
-        }
-    }
-
     std::size_t count{};
     std::size_t face{};
-    std::size_t modifier{};
+    std::int64_t modifier{};
 };
 
-dice_data parse_dice_info(std::string dice_info) {    
-    for (auto& ch : dice_info) {
-        if (ch == 'd' || ch == '+') {
-            ch = ' ';
-        }
+std::optional<dice_data> parse_dice_info(std::string dice_info) {
+    std::regex pattern{R"((\d+)d(\d+)([+-]\d+)?)"};
+    std::smatch match{};
+
+    if (!std::regex_match(dice_info, match, pattern)) {
+        return std::nullopt;
     }
 
-    return dice_info | std::views::split(' ') | std::ranges::to<std::vector<std::string>>();
+    dice_data result{};
+    std::from_chars(match.str(1).data(), match.str(1).data() + match.str(1).size(), result.count);
+    std::from_chars(match.str(2).data(), match.str(2).data() + match.str(2).size(), result.face);
+    std::from_chars(match.str(3).data(), match.str(3).data() + match.str(3).size(), result.modifier);
+
+    return result;
 }
 
-template <typename Tp = std::size_t>
+template <typename Tp = std::int64_t>
 std::string roll_dice(const std::string& dice_info) {
-    if (dice_info.find('d') == std::string::npos) {
+    auto parse_result = parse_dice_info(dice_info);
+    if (!parse_result) {
         return "Invalid dice info";
     }
 
-    auto dice_data = parse_dice_info(dice_info);
-    rng generator{1uz, dice_data.face};
+    auto dice_data = parse_result.value();
+
+    static rng generator{1uz, dice_data.face};
 
     std::vector<Tp> result(dice_data.count);
     std::generate_n(result.begin(), dice_data.count, [&]() {
