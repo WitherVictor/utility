@@ -11,7 +11,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
     target_link_libraries(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
-elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNC")
+elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
     target_link_libraries(${PROJECT_NAME} PRIVATE stdc++exp)
 endif()
 
