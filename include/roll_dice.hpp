@@ -49,10 +49,15 @@ std::optional<dice_data> parse_dice_info(std::string dice_info) {
         return std::nullopt;
     }
 
+    std::istringstream stringstream{dice_info};
+
     dice_data result{};
-    std::from_chars(match.str(1).data(), match.str(1).data() + match.str(1).size(), result.count);
-    std::from_chars(match.str(2).data(), match.str(2).data() + match.str(2).size(), result.face);
-    std::from_chars(match.str(3).data(), match.str(3).data() + match.str(3).size(), result.modifier);
+    
+    stringstream >> result.count;
+    stringstream.get();
+    stringstream >> result.face;
+    stringstream.get();
+    stringstream >> result.modifier;
 
     return result;
 }
