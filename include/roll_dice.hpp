@@ -1,7 +1,6 @@
 #pragma once
 
 #include <algorithm>
-#include <charconv>
 #include <concepts>
 #include <optional>
 #include <random>
@@ -52,7 +51,7 @@ std::optional<dice_data> parse_dice_info(std::string dice_info) {
     std::istringstream stringstream{dice_info};
 
     dice_data result{};
-    
+
     stringstream >> result.count;
     stringstream.get();
     stringstream >> result.face;
@@ -71,10 +70,10 @@ std::string roll_dice(const std::string& dice_info) {
 
     auto dice_data = parse_result.value();
 
-    static rng generator{1uz, dice_data.face};
+    static rng generator{1, dice_data.face};
 
     std::vector<Tp> result(dice_data.count);
-    std::generate_n(result.begin(), dice_data.count, [&]() {
+    std::generate_n(result.begin(), dice_data.count, [&dice_data]() {
         return generator.yield() + dice_data.modifier;
     });
 
