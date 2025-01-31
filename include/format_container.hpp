@@ -1,22 +1,33 @@
 #pragma once
 
 #include <format>
-#include <vector>
+#include <ranges>
 
-template <typename T>
-struct std::formatter<std::vector<T>> : std::formatter<T> {
-    template <typename ContextType>
-    auto format(const std::vector<T>& vec, ContextType& ctx) const {
+template <std::ranges::input_range Range>
+struct std::formatter<Range> {
+    using ValueType = std::ranges::range_value_t<Range>;
+    std::formatter<ValueType> element_formatter;
+
+    constexpr auto parse(auto& ctx) {
+        return element_formatter.parse(ctx);
+    }
+
+    auto format(const Range& range, auto& ctx) const {
         auto out = ctx.out();
 
+        //  起始左方括号
         out = std::format_to(out, "[");
-        for (std::size_t index{}; index < vec.size(); index++) {
-            out = std::format_to(out, "{}", vec.at(index));
 
-            if (index != vec.size() - 1) {
+        bool first = true;
+        for (const auto& elem : range) {
+            if (first)
+                first = false;
+            else
                 out = std::format_to(out, ", ");
-            }
+
+            out = element_formatter.format(elem, ctx);
         }
+
         return std::format_to(out, "]");
     }
 };
