@@ -15,7 +15,6 @@ struct std::formatter<Range> {
     auto format(const Range& range, auto& ctx) const {
         auto out = ctx.out();
 
-        //  起始左方括号
         out = std::format_to(out, "[");
 
         bool first = true;
