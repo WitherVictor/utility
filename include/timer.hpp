@@ -3,6 +3,12 @@
 #include <chrono>
 #include <concepts>
 
+/**
+ * @brief 计算经过时间长度的类
+ * 
+ * @tparam ClockType 
+ * @return requires 
+ */
 template <typename ClockType = std::chrono::steady_clock>
 requires requires () { ClockType::now(); }
 class timer {
