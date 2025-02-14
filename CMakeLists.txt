@@ -21,3 +21,17 @@ target_compile_options(${PROJECT_NAME} PRIVATE
                             -Wextra
                             -pedantic
 )
+
+#  Unit test target begin
+set(UNIT_TEST unit-tests)
+
+add_subdirectory(thirdparty/google-test)
+
+file(GLOB_RECURSE UNIT_TEST_SOURCES unit-tests/*.cpp)
+message("Unit test sources: ${UNIT_TEST_SOURCES}")
+
+add_executable(${UNIT_TEST} ${UNIT_TEST_SOURCES})
+
+target_compile_options(${UNIT_TEST} PRIVATE -Wall -Wextra -pedantic -std=c++26)
+target_include_directories(${UNIT_TEST} PRIVATE include)
+target_link_libraries(${UNIT_TEST} PRIVATE GTest::gtest_main)
