@@ -10,7 +10,7 @@ long double sqrt_newton(long double init_value) {
     if (init_value == 0)
         return 0;
 
-    long double init_solution = std::pow(2, 0.5 * std::log2(init_value));
+    long double init_solution = 1;
     while (true) {
         //  x_n+1 = x_n - f(x_n) / f'(x_n)
         //
