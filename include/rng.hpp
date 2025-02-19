@@ -19,6 +19,7 @@ public:
     }
 
     Tp yield() { return m_range(m_engine); }
+    Tp operator()() { return yield(); }
 private:
     std::mt19937_64 m_engine;
     std::uniform_int_distribution<Tp> m_range;
