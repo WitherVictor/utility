@@ -5,8 +5,8 @@
 
 template <std::ranges::input_range Range>
 struct std::formatter<Range> {
-    using ValueType = std::ranges::range_value_t<Range>;
-    std::formatter<ValueType> element_formatter;
+    using value_type = std::ranges::range_value_t<Range>;
+    std::formatter<value_type> element_formatter;
 
     constexpr auto parse(auto& ctx) {
         return element_formatter.parse(ctx);
