@@ -6,54 +6,53 @@
 #include <array>
 #include <stdexcept>
 
-template <typename T>
+template <typename EngineType = std::mt19937_64>
+class base_rng {
+protected:
+    base_rng() {
+        std::random_device rd{};
+        std::array<std::random_device::result_type, EngineType::state_size> seed_data{};
+        std::ranges::generate(seed_data, std::ref(rd));
+
+        std::seed_seq seed_sequence(std::ranges::begin(seed_data), std::ranges::end(seed_data));
+        m_engine = EngineType{seed_sequence};
+    }
+protected:
+    EngineType m_engine;
+};
+
+template <typename T, typename EngineType = std::mt19937_64>
 class rng;
 
-template <std::integral T>
-class rng<T> {
+template <std::integral T, typename EngineType>
+class rng<T, EngineType> : public base_rng<EngineType> {
 public:
     rng(T begin, T end)
-        : m_range{begin, end}
+        : base_rng<EngineType>(), m_range{begin, end - 1}
     {
         if (begin > end)
             throw std::invalid_argument{"begin must be less than or equal to end"};
-
-        std::random_device rd{};
-        std::array<std::random_device::result_type, std::mt19937_64::state_size> seed_data{};
-        std::ranges::generate(seed_data, std::ref(rd));
-        std::seed_seq seed_sequence(std::ranges::begin(seed_data), std::ranges::end(seed_data));
-
-        m_engine = std::mt19937_64{seed_sequence};
     }
 
-    T operator()() { return m_range(m_engine); }
+    T operator()() { return m_range(base_rng<EngineType>::m_engine); }
 private:
-    std::mt19937_64 m_engine;
     std::uniform_int_distribution<T> m_range;
 };
 
-template <std::floating_point T>
-class rng<T> {
+template <std::floating_point T, typename EngineType>
+class rng<T, EngineType> : public base_rng<EngineType> {
 public:
     rng(T begin, T end)
-        : m_range{begin, end}
+        : base_rng<EngineType>(), m_range{begin, end}
     {
         if (begin > end)
             throw std::invalid_argument{"begin must be less than or equal to end"};
-
-        std::random_device rd{};
-        std::array<std::random_device::result_type, std::mt19937_64::state_size> seed_data{};
-        std::ranges::generate(seed_data, std::ref(rd));
-        std::seed_seq seed_sequence(std::ranges::begin(seed_data), std::ranges::end(seed_data));
-
-        m_engine = std::mt19937_64{seed_sequence};
     }
 
-    T operator()() { return m_range(m_engine); }
+    T operator()() { return m_range(base_rng<EngineType>::m_engine); }
 private:
-    std::mt19937_64 m_engine;
     std::uniform_real_distribution<T> m_range;
 };
 
-template <typename T, typename Up>
-rng(T, Up) -> rng<std::common_type_t<T, Up>>;
+template <typename T, typename U>
+rng(T, U) -> rng<std::common_type_t<T, U>>;
