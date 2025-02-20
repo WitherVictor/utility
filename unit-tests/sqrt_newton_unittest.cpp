@@ -8,18 +8,18 @@ TEST(sqrt_newton_unittest, extreme_positive) {
     EXPECT_DOUBLE_EQ(sqrt_newton(1e30), 1e15);
 }
 
-TEST(sqrt_newton_unittest, golden_ratio) {
+TEST(sqrt_newton_unittest, golden_ratio_test) {
     EXPECT_DOUBLE_EQ(((1 + sqrt_newton(5)) / 2), 1.618033988749895);
 }
 
-TEST(sqrt_newton_unittest, decimal) {
+TEST(sqrt_newton_unittest, decimal_test) {
     EXPECT_DOUBLE_EQ(sqrt_newton(0.5), 0.7071067811865476);
     EXPECT_DOUBLE_EQ(sqrt_newton(0.25), 0.5);
     EXPECT_DOUBLE_EQ(sqrt_newton(0.125), 0.3535533905932738);
     
 }
 
-TEST(sqrt_newton_unittest, trivial) {
+TEST(sqrt_newton_unittest, basic_test) {
     EXPECT_DOUBLE_EQ(sqrt_newton(1), 1.0);
     EXPECT_DOUBLE_EQ(sqrt_newton(2), 1.4142135623730951);
     EXPECT_DOUBLE_EQ(sqrt_newton(3), 1.7320508075688772);
@@ -27,10 +27,10 @@ TEST(sqrt_newton_unittest, trivial) {
     EXPECT_DOUBLE_EQ(sqrt_newton(7), 2.6457513110645907);
 }
 
-TEST(sqrt_newton_unittest, zero) {
+TEST(sqrt_newton_unittest, zero_test) {
     EXPECT_DOUBLE_EQ(sqrt_newton(0), 0);
 }
 
-TEST(sqrt_newton_unittest, negative) {
+TEST(sqrt_newton_unittest, negative_test) {
     EXPECT_TRUE(std::isnan(sqrt_newton(-1)));
 }
