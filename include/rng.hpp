@@ -30,8 +30,8 @@ public:
     rng(T begin, T end)
         : base_rng<EngineType>(), m_range{begin, end - 1}
     {
-        if (begin > end)
-            throw std::invalid_argument{"begin must be less than or equal to end"};
+        if (begin >= end)
+            throw std::invalid_argument{"begin must be less than end"};
     }
 
     T operator()() { return m_range(base_rng<EngineType>::m_engine); }
@@ -45,8 +45,8 @@ public:
     rng(T begin, T end)
         : base_rng<EngineType>(), m_range{begin, end}
     {
-        if (begin > end)
-            throw std::invalid_argument{"begin must be less than or equal to end"};
+        if (begin >= end)
+            throw std::invalid_argument{"begin must be less than end"};
     }
 
     T operator()() { return m_range(base_rng<EngineType>::m_engine); }
