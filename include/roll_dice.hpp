@@ -49,7 +49,7 @@ std::string roll_dice(const std::string& dice_info) {
 
     std::vector<Tp> result(dice_data.count);
     std::generate_n(result.begin(), dice_data.count, [&dice_data]() {
-        return generator.yield() + dice_data.modifier;
+        return generator() + dice_data.modifier;
     });
 
     return std::format("{} : {}", dice_info, result);
