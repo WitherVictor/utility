@@ -61,7 +61,7 @@ public:
         auto result_future = task->get_future();
 
         std::unique_lock lock{m_queue_mutex};
-        m_queue.emplace([task = std::move(task)]() mutable { (*task)(); });
+        m_queue.emplace(std::move([task = std::move(task)]() mutable { (*task)(); }));
         lock.unlock();
 
         m_queue_cv.notify_one();
