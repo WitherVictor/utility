@@ -52,7 +52,7 @@ public:
 
         //  任务队列的元素类型 std::function<void()>，需要可复制构造
         //  std::unique_ptr 只可移动不可复制，因此使用 std::shared_ptr 包装任务
-        auto task = std::make_shared<std::packaged_task<return_type()>>(
+        auto task = std::make_unique<std::packaged_task<return_type()>>(
             [func = std::forward<Func>(func), ...args = std::forward<Args>(args)]() mutable {
                 return std::invoke(func, args...);
             }
@@ -72,7 +72,7 @@ public:
 private:
     mutable std::mutex m_queue_mutex;
     std::condition_variable m_queue_cv;
-    std::queue<std::function<void()>> m_queue;
+    std::queue<std::move_only_function<void()>> m_queue;
 
     //  在通知工作所有线程后，析构函数体执行完毕
     //  接下来会以声明的逆序销毁成员变量
