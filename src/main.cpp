@@ -43,5 +43,5 @@ int main() {
     std::println("Multiply result : {}", multiply_future.get());
 
     for (auto i : random_range(1, 10) | std::views::take(10))
-        std::println("Random numeber: {}", i);
+        std::println("Random number: {}", i);
 }
