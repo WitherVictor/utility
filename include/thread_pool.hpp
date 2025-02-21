@@ -50,8 +50,8 @@ public:
     auto submit(Func&& func, Args&&... args) {
         using return_type = std::invoke_result_t<Func, Args...>;
 
-        //  任务队列的元素类型 std::function<void()>，需要可复制构造
-        //  std::unique_ptr 只可移动不可复制，因此使用 std::shared_ptr 包装任务
+        //  包装任务为 std::packaged_task<return_type()>
+        //  并用 std::make_unique() 包装 std::packaged_task<return_type()> 放在堆上
         auto task = std::make_unique<std::packaged_task<return_type()>>(
             [func = std::forward<Func>(func), ...args = std::forward<Args>(args)]() mutable {
                 return std::invoke(func, args...);
@@ -61,6 +61,8 @@ public:
         auto result_future = task->get_future();
 
         std::unique_lock lock{m_queue_mutex};
+        //  再用 lambda 包装 std::packaged_task<return_type()> 擦除其类型为 void()
+        //  并放入队列中
         m_queue.emplace(std::move([task = std::move(task)]() mutable { (*task)(); }));
         lock.unlock();
 
