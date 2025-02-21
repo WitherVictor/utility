@@ -52,6 +52,7 @@ public:
 
         //  包装任务为 std::packaged_task<return_type()>
         //  并用 std::make_unique() 包装 std::packaged_task<return_type()> 将其放在堆上
+        //  任务调用的类型被擦除为 return_type()
         auto task = std::make_unique<std::packaged_task<return_type()>>(
             [func = std::forward<Func>(func), ...args = std::forward<Args>(args)]() mutable {
                 return std::invoke(func, args...);
