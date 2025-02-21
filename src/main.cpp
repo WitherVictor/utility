@@ -16,12 +16,9 @@ std::size_t calculate_add() {
     return result;
 }
 
-std::size_t calculate_multiply() {
-    std::size_t result = 1;
-    for (std::size_t i = 1; i < 25; i++)
-        result *= i;
-
-    return result;
+template <typename T>
+T add(T a, T b) {
+    return a + b;
 }
 
 template <typename T>
@@ -41,10 +38,10 @@ int main() {
 
     thread_pool pool{};
     auto add_future = pool.submit(calculate_add);
-    auto multiply_future = pool.submit(calculate_multiply);
+    auto multiply_future = pool.submit(add<int>, 3, 5);
     std::println("Add result : {}", add_future.get());
     std::println("Multiply result : {}", multiply_future.get());
 
     for (auto i : random_range(1, 10) | std::views::take(10))
-        std::println("Random numer: {}", i);
+        std::println("Random numeber: {}", i);
 }
