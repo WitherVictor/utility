@@ -38,3 +38,9 @@ target_compile_options(${UNIT_TEST} PRIVATE -Wall -Wextra -pedantic -std=c++26)
 target_include_directories(${UNIT_TEST} PRIVATE include)
 target_link_libraries(${UNIT_TEST} PRIVATE GTest::gtest_main)
 #  Unit test target end
+
+#  include stdc++exp for std::print under windows gnu
+if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" AND ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    target_link_libraries(${PROJECT_NAME} PRIVATE stdc++exp)
+    target_link_libraries(${UNIT_TEST} PRIVATE stdc++exp)
+endif()
