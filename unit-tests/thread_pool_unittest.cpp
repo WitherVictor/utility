@@ -25,7 +25,6 @@ TEST(thread_pool_unittest, basic_test) {
     EXPECT_EQ(expected_result, result.get());
 
     expected_result = 15;
-    auto multiply_task = [&first, &last]() { return multiply(first, last); };
-    result = pool.submit(multiply_task);
+    result = pool.submit(multiply<decltype(first), decltype(last)>, first, last);
     EXPECT_EQ(expected_result, result.get());
 }
