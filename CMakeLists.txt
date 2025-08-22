@@ -12,6 +12,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(GoogleTest)
 
+# 添加单元测试
+add_subdirectory(unit-tests)
+
 #  Main target begin
 file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
 add_executable(${PROJECT_NAME} src/main.cpp)
@@ -26,21 +29,7 @@ target_compile_options(${PROJECT_NAME} PRIVATE
 target_include_directories(${PROJECT_NAME} PRIVATE include)
 #  Main target end
 
-#  Unit test target begin   
-set(UNIT_TEST unit-tests)
-
-file(GLOB_RECURSE UNIT_TEST_SOURCES unit-tests/*.cpp)
-message("Unit test sources: ${UNIT_TEST_SOURCES}")
-
-add_executable(${UNIT_TEST} ${UNIT_TEST_SOURCES})
-
-target_compile_options(${UNIT_TEST} PRIVATE -Wall -Wextra -pedantic -std=c++26)
-target_include_directories(${UNIT_TEST} PRIVATE include)
-target_link_libraries(${UNIT_TEST} PRIVATE GTest::gtest_main)
-#  Unit test target end
-
 #  include stdc++exp for std::print under windows gnu
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" AND ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     target_link_libraries(${PROJECT_NAME} PRIVATE stdc++exp)
-    target_link_libraries(${UNIT_TEST} PRIVATE stdc++exp)
 endif()
