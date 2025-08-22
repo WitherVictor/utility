@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <array>
 #include <stdexcept>
+#include <ranges>
 
 template <typename EngineType = std::mt19937_64>
 class base_rng {
