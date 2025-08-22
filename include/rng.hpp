@@ -29,10 +29,12 @@ template <std::integral T, typename EngineType>
 class rng<T, EngineType> : public base_rng<EngineType> {
 public:
     rng(T begin, T end)
-        : base_rng<EngineType>(), m_range{begin, end}
+        : base_rng<EngineType>(), m_range{}
     {
         if (begin > end)
             throw std::invalid_argument{"begin must be less than or equal to end"};
+
+        m_range = std::uniform_int_distribution<T>{begin, end};
     }
 
     T operator()() { return m_range(base_rng<EngineType>::m_engine); }
@@ -44,10 +46,12 @@ template <std::floating_point T, typename EngineType>
 class rng<T, EngineType> : public base_rng<EngineType> {
 public:
     rng(T begin, T end)
-        : base_rng<EngineType>(), m_range{begin, end}
+        : base_rng<EngineType>(), m_range{}
     {
         if (begin >= end)
             throw std::invalid_argument{"begin must be less than end"};
+
+        m_range = std::uniform_real_distribution<T>{begin, end};
     }
 
     T operator()() { return m_range(base_rng<EngineType>::m_engine); }
