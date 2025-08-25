@@ -8,12 +8,13 @@ FetchContent_Declare(
     GoogleTest
     GIT_REPOSITORY https://github.com/google/googletest
     GIT_TAG v1.16.0
+    GIT_SHALLOW TRUE
 )
 
 FetchContent_MakeAvailable(GoogleTest)
 
 # 添加单元测试
-add_subdirectory(tests)
+add_subdirectory(tests/unit)
 
 #  Main target begin
 file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
