@@ -1,3 +1,13 @@
+include(FetchContent)
+FetchContent_Declare(
+    GoogleTest
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG v1.16.0
+    GIT_SHALLOW TRUE
+)
+
+FetchContent_MakeAvailable(GoogleTest)
+
 set(UNIT_TEST unit_tests)
 
 file(GLOB_RECURSE UNIT_TEST_SOURCES ./*.cpp)

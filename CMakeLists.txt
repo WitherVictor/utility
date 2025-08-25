@@ -3,16 +3,6 @@ project(demo VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-include(FetchContent)
-FetchContent_Declare(
-    GoogleTest
-    GIT_REPOSITORY https://github.com/google/googletest
-    GIT_TAG v1.16.0
-    GIT_SHALLOW TRUE
-)
-
-FetchContent_MakeAvailable(GoogleTest)
-
 # 添加单元测试
 add_subdirectory(tests/unit)
 
