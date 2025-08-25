@@ -16,22 +16,20 @@ void sqrt_common(benchmark::State& state) {
 }
 
 BENCHMARK(sqrt_common)
+    ->Arg(0)
+    ->Arg(1)
     ->Arg(2)
     ->Arg(3)
     ->Arg(5)
     ->Arg(7)
-    ->Arg(16)
-    ->Arg(32)
-    ->Arg(64)
-    ->Arg(128);
+    ->Arg(1e15);
 BENCHMARK(sqrt_newton_common)
+    ->Arg(0)
+    ->Arg(1)
     ->Arg(2)
     ->Arg(3)
     ->Arg(5)
     ->Arg(7)
-    ->Arg(16)
-    ->Arg(32)
-    ->Arg(64)
-    ->Arg(128);
+    ->Arg(1e15);
 
 BENCHMARK_MAIN();
