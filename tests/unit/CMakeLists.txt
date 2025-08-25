@@ -1,14 +1,13 @@
+set(UNIT_TEST unit_tests)
+
 include(FetchContent)
 FetchContent_Declare(
-    GoogleTest
+    google_test
     GIT_REPOSITORY https://github.com/google/googletest
-    GIT_TAG v1.16.0
+    GIT_TAG main
     GIT_SHALLOW TRUE
 )
-
-FetchContent_MakeAvailable(GoogleTest)
-
-set(UNIT_TEST unit_tests)
+FetchContent_MakeAvailable(google_test)
 
 file(GLOB_RECURSE UNIT_TEST_SOURCES ./*.cpp)
 message("Unit test sources: ${UNIT_TEST_SOURCES}")
