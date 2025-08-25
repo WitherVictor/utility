@@ -1,4 +1,4 @@
-set(UNIT_TEST unit-tests)
+set(UNIT_TEST unit_tests)
 
 file(GLOB_RECURSE UNIT_TEST_SOURCES ./*.cpp)
 message("Unit test sources: ${UNIT_TEST_SOURCES}")
