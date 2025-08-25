@@ -5,6 +5,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # 添加单元测试
 add_subdirectory(tests/unit)
+add_subdirectory(tests/benchmark)
 
 #  Main target begin
 file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
