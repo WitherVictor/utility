@@ -13,7 +13,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(GoogleTest)
 
 # 添加单元测试
-add_subdirectory(unit-tests)
+add_subdirectory(tests)
 
 #  Main target begin
 file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
