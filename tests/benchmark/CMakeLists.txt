@@ -4,7 +4,7 @@ include(FetchContent)
 FetchContent_Declare(
     google_benchmark
     GIT_REPOSITORY https://github.com/google/benchmark
-    GIT_TAG main
+    GIT_TAG v1.9.4
     GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(google_benchmark)
@@ -20,6 +20,7 @@ target_compile_options(${BENCHMARK}
         -Wall
         -Wextra
         -pedantic
+        -O2
 )
 
 target_include_directories(${BENCHMARK}
