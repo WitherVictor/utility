@@ -31,5 +31,3 @@ BENCHMARK(sqrt_newton_common)
     ->Arg(5)
     ->Arg(7)
     ->Arg(1e15);
-
-BENCHMARK_MAIN();
