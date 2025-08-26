@@ -1,5 +1,4 @@
-set(UNIT_TEST unit_tests)
-
+# 引入 FetchContent 下载 google test
 include(FetchContent)
 FetchContent_Declare(
     google_test
@@ -9,11 +8,39 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(google_test)
 
-file(GLOB_RECURSE UNIT_TEST_SOURCES ./*.cpp)
-message("Unit test sources: ${UNIT_TEST_SOURCES}")
+# 收集源文件
+set(UNITTEST_SOURCES
+    gcd_unittest.cpp
+    rng_coro_unittest.cpp
+    rng_unittest.cpp
+    roll_dice_unittest.cpp
+    sqrt_newton_unittest.cpp
+    thread_pool_unittest.cpp
+)
 
-add_executable(${UNIT_TEST} ${UNIT_TEST_SOURCES})
+# 迭代每一个源文件
+foreach(UNITTEST_SOURCE ${UNITTEST_SOURCES})
+    # 提取单元测试文件的无扩展名无目录的纯文件名
+    get_filename_component(UNITTEST_NAME ${UNITTEST_SOURCE} NAME_WE)
 
-target_compile_options(${UNIT_TEST} PRIVATE -Wall -Wextra -pedantic -std=c++26)
-target_include_directories(${UNIT_TEST} PRIVATE ../../include)
-target_link_libraries(${UNIT_TEST} PRIVATE GTest::gtest_main)
+    # 使用纯文件名作为目标，并添加可执行文件
+    add_executable(${UNITTEST_NAME} ${UNITTEST_SOURCE})
+
+    # 为目标添加编译参数
+    target_compile_options(${UNITTEST_NAME}
+        PRIVATE
+            -Wall -Wextra -pedantic -std=c++26
+    )
+
+    # 指定目标包含头文件路径
+    target_include_directories(${UNITTEST_NAME}
+        PRIVATE
+            ../../include
+    )
+
+    # 为目标链接库
+    target_link_libraries(${UNITTEST_NAME}
+        PRIVATE
+            GTest::gtest_main
+    )
+endforeach()
