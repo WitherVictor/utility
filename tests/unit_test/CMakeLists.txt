@@ -31,11 +31,10 @@ target_compile_options(unit_test PRIVATE
 )
 
 # 链接 gtest 库与被测试的头文件库
-target_link_libraries(unit_test
-    PRIVATE
-        util
-        gtest
-        gtest_main
+target_link_libraries(unit_test PRIVATE
+    util
+    gtest
+    gtest_main
 )
 
 # 引入 GoogleTest 来自动注册单元测试

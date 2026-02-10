@@ -17,10 +17,6 @@ target_compile_features(util INTERFACE
     cxx_std_23
 )
 
-# 添加单元测试
-add_subdirectory(tests/unit_test)
-add_subdirectory(tests/benchmark)
-
 #  Main target begin
 file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
 add_executable(${PROJECT_NAME} src/main.cpp)
@@ -39,3 +35,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE include)
 if (${CMAKE_CXX_COMPILER_ID} MATCHES "GNU" AND ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
     target_link_libraries(${PROJECT_NAME} PRIVATE stdc++exp)
 endif()
+
+# 添加单元测试
+add_subdirectory(tests/unit_test)
+add_subdirectory(tests/benchmark)
