@@ -1,2 +1,8 @@
+# clangd 缓存
 .cache
+
+# 编译缓存
 build
+
+# VSCode 工作区设置
+.vscode
