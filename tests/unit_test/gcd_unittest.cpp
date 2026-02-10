@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
-#include "gcd.hpp"
+#include <gcd.hpp>
 
 TEST(gcd_unittest, basic_test) {
     EXPECT_EQ(gcd(18, 24), 6);

@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
-#include "thread_pool.hpp"
+#include <thread_pool.hpp>
 
 #include <type_traits>
 

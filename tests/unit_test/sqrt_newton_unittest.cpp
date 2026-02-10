@@ -1,8 +1,8 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
+#include <sqrt_newton.hpp>
 
 #include <cmath>
-
-#include "sqrt_newton.hpp"
 
 TEST(sqrt_newton_unittest, extreme_positive) {
     EXPECT_DOUBLE_EQ(sqrt_newton(1e30), 1e15);

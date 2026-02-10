@@ -3,8 +3,22 @@ project(demo VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# 导出接口库
+add_library(util INTERFACE)
+
+# 添加库路径
+target_include_directories(util INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+# 至少需要 C++23
+target_compile_features(util INTERFACE
+    cxx_std_23
+)
+
 # 添加单元测试
-add_subdirectory(tests/unit)
+add_subdirectory(tests/unit_test)
 add_subdirectory(tests/benchmark)
 
 #  Main target begin

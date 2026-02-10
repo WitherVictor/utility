@@ -1,6 +1,6 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 
-#include "rng.hpp"
+#include <rng.hpp>
 
 TEST(rng_unittest, integer_test) {
     auto r1{rng(0, 100)};
