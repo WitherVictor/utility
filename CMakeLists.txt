@@ -22,7 +22,7 @@ file(GLOB_RECURSE PROJECT_INCLUDE_DIRS include/*.hpp)
 add_executable(${PROJECT_NAME} src/main.cpp)
 
 target_compile_options(${PROJECT_NAME} PRIVATE
-                            -std=c++26
+                            -std=c++23
                             -Wall
                             -Wextra
                             -pedantic
